@@ -1,7 +1,5 @@
 # Distributed log
 
----
-
 Proglog is a distributed append only log which comprises a segment, a store file and an index file.
 
 - Record - the data stored into log
@@ -13,7 +11,6 @@ Proglog is a distributed append only log which comprises a segment, a store file
 
 # API
 
----
 - Add log
 ```
 curl --request POST \
