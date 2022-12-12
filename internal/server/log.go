@@ -5,6 +5,13 @@ import (
 	"sync"
 )
 
+var ErrOffsetNotFound = fmt.Errorf("offset not found")
+
+type Record struct {
+	Value  []byte `json:"value"`
+	Offset uint64 `json:"offset"`
+}
+
 type Log struct {
 	mu      sync.Mutex
 	records []Record
@@ -29,7 +36,7 @@ func (c *Log) Read(offset uint64) (Record, error) {
 	defer c.mu.Unlock()
 
 	if c.IsOffsetOutOfBound(offset) {
-		return Record{}, ErrOffsetnotFound
+		return Record{}, ErrOffsetNotFound
 	}
 
 	return c.GetRecord(offset), nil
@@ -40,6 +47,7 @@ func (c *Log) GetRecord(offset uint64) Record {
 }
 
 func (c *Log) SetOffset(record *Record, newOffset int) {
+	fmt.Println("SetOffset", newOffset)
 	record.Offset = uint64(newOffset)
 }
 
@@ -50,10 +58,3 @@ func (c *Log) GetCurrentOffset() int {
 func (c *Log) IsOffsetOutOfBound(offset uint64) bool {
 	return offset >= uint64(c.GetCurrentOffset())
 }
-
-type Record struct {
-	Value  []byte `json:"value"`
-	Offset uint64 `json:"offset"`
-}
-
-var ErrOffsetnotFound = fmt.Errorf("offset not found")
