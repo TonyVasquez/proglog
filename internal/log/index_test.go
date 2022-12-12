@@ -19,9 +19,10 @@ func TestIndex(t *testing.T) {
 	idx, err := newIndex(f, c)
 	require.NoError(t, err)
 
+	require.Equal(t, f.Name(), idx.Name())
+
 	_, _, err = idx.Read(-1)
 	require.Error(t, err)
-	require.Equal(t, f.Name(), idx.Name())
 
 	entries := []struct {
 		Off uint32
@@ -41,9 +42,10 @@ func TestIndex(t *testing.T) {
 		require.Equal(t, want.Pos, pos)
 	}
 
-	// index and scanner should error when reading past existing entries
+	// error when trying to read out of bounds
 	_, _, err = idx.Read(int64(len(entries)))
 	require.Equal(t, io.EOF, err)
+
 	_ = idx.Close()
 
 	// index should build its state from the existing file

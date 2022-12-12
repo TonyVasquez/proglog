@@ -9,7 +9,9 @@ import (
 var (
 	offWidth uint64 = 4
 	posWidth uint64 = 8
-	entWidth        = offWidth + posWidth
+
+	// entry len in bytes
+	entWidth = offWidth + posWidth
 )
 
 type index struct {
@@ -77,6 +79,7 @@ func (i *index) Read(in int64) (out uint32, pos uint64, err error) {
 	}
 
 	if in == -1 {
+		// last record
 		out = uint32((i.size / entWidth) - 1)
 	} else {
 		out = uint32(in)

@@ -47,7 +47,6 @@ func (c *Log) GetRecord(offset uint64) Record {
 }
 
 func (c *Log) SetOffset(record *Record, newOffset int) {
-	fmt.Println("SetOffset", newOffset)
 	record.Offset = uint64(newOffset)
 }
 

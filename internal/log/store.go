@@ -37,6 +37,8 @@ func newStore(f *os.File) (*store, error) {
 	}, nil
 }
 
+// Append appends a record to the log.
+// Firstly store the length of record and then record
 func (s *store) Append(record []byte) (n uint64, pos uint64, err error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
